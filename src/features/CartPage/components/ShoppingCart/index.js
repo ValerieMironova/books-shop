@@ -9,6 +9,8 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import DeleteIcon from '@material-ui/icons/Delete';
+import * as cartActions from "../../../../actions/cart"
 
 const ShoppingCart = (props) => {
     const classes = useStyles();
@@ -20,6 +22,7 @@ const ShoppingCart = (props) => {
                 <TableCell>{item.price} р.</TableCell>
                 <TableCell>{item.count} шт.</TableCell>
                 <TableCell>{item.total} р.</TableCell>
+                <TableCell><Button onClick={() =>deleteItem(item)}><DeleteIcon/></Button></TableCell>
             </TableRow>
         )
     });
@@ -32,6 +35,7 @@ const ShoppingCart = (props) => {
                     <TableCell className={classes.table_th}>Цена</TableCell>
                     <TableCell className={classes.table_th}>Количество</TableCell>
                     <TableCell className={classes.table_th}>Итог</TableCell>
+                    <TableCell className={classes.table_th}/>
                 </TableRow>
                 {tableRows}
             </TableBody>
@@ -39,6 +43,10 @@ const ShoppingCart = (props) => {
     </TableContainer>;
 
     const emptyCart = <Typography color="textSecondary">Ваша корзина пуста</Typography>;
+
+    const deleteItem = (item) => {
+        props.dispatch(cartActions.deleteItem(item))
+    };
 
     return (
         <React.Fragment>

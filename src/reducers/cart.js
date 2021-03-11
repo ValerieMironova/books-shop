@@ -26,14 +26,29 @@ const cart = (state = initialState, action) => {
                 })
             }
 
-            newState.totalCost = newState.items.reduce((item1, item2) => {
-                const total1 = item1.total ? item1.total : 0;
-                const total2 = item2.total ? item2.total : 0;
-
-                return total1 + total2;
-            }, 0);
+            let totalCost = 0;
+            newState.items.forEach(item => totalCost += item.total);
+            newState.totalCost = totalCost;
 
             return newState;
+
+        case types.DELETE_ITEM:
+            const deleteItemState = {
+                ...state
+            };
+
+            const deleteItem = deleteItemState.items.find(item => item.id === action.id);
+            if(deleteItem){
+                const index = deleteItemState.items.indexOf(deleteItem);
+                deleteItemState.items.splice(index, 1);
+            }
+
+            let deleteItemStateTotalCost = 0;
+            deleteItemState.items.forEach(item => deleteItemStateTotalCost += item.total);
+            deleteItemState.totalCost = deleteItemStateTotalCost;
+
+            return deleteItemState;
+
         default:
             return state
     }

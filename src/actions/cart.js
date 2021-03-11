@@ -6,3 +6,8 @@ export const addItem = item => ({
     name: item.name,
     price: item.price,
 });
+
+export const deleteItem = item => ({
+    type: types.DELETE_ITEM,
+    id: item.id,
+});
