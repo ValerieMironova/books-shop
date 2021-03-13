@@ -38,7 +38,7 @@ const Header = ({cart}) => {
                     <div className={classes.header_bottom}>
                         <Link className={classes.logo} to="/">LOGO</Link>
 
-                        <Badge className={classes.cart} color="secondary" badgeContent={cart.items.length} showZero>
+                        <Badge className={classes.cart} color="secondary" badgeContent={cart.totalCount} showZero>
                             <Link to="/cart" className={classes.cartIcon}><AddShoppingCartIcon fontSize="large"/></Link>
                         </Badge>
                     </div>

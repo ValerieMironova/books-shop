@@ -3,16 +3,18 @@ import * as types from "../constants/CartActionTypes";
 const initialState = {
     items: [],
     totalCost: 0,
+    totalCount: 0,
 };
 
 const cart = (state = initialState, action) => {
+    const newState = {
+        ...state
+    };
+
+    const existedItem = newState.items.find(item => item.id === action.id);
+
     switch (action.type) {
         case types.ADD_ITEM:
-            const newState = {
-                ...state
-            };
-
-            const existedItem = newState.items.find(item => item.id === action.id);
             if(existedItem) {
                 existedItem.count = existedItem.count + 1;
                 existedItem.total = existedItem.count * existedItem.price;
@@ -25,33 +27,41 @@ const cart = (state = initialState, action) => {
                     total: action.price
                 })
             }
-
-            let totalCost = 0;
-            newState.items.forEach(item => totalCost += item.total);
-            newState.totalCost = totalCost;
-
-            return newState;
+            break;
 
         case types.DELETE_ITEM:
-            const deleteItemState = {
-                ...state
-            };
-
-            const deleteItem = deleteItemState.items.find(item => item.id === action.id);
-            if(deleteItem){
-                const index = deleteItemState.items.indexOf(deleteItem);
-                deleteItemState.items.splice(index, 1);
+            if(existedItem){
+                const index = newState.items.indexOf(existedItem);
+                newState.items.splice(index, 1);
             }
+            break;
 
-            let deleteItemStateTotalCost = 0;
-            deleteItemState.items.forEach(item => deleteItemStateTotalCost += item.total);
-            deleteItemState.totalCost = deleteItemStateTotalCost;
+        case types.ADD_QUANTITY:
+            if (existedItem) {
+                existedItem.count = existedItem.count + 1;
+                existedItem.total = existedItem.count * existedItem.price;
+            }
+            break;
 
-            return deleteItemState;
-
+        case types.REMOVE_QUANTITY:
+            if (existedItem) {
+                existedItem.count = existedItem.count - 1;
+                existedItem.total = existedItem.count * existedItem.price;
+            }
+            break;
         default:
-            return state
+            break;
     }
+
+    let totalCost = 0;
+    newState.items.forEach(item => totalCost += item.total);
+    newState.totalCost = totalCost;
+
+    let totalCount = 0;
+    newState.items.forEach(item => totalCount += item.count);
+    newState.totalCount = totalCount;
+
+    return newState;
 };
 
 export default cart

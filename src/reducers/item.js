@@ -49,7 +49,7 @@ const initialState = [
     },
     {
         id: 4,
-        name: 'Египтология. В поисках гробницы Осириса',
+        name: 'Египтология. В поисках гробницы Осириса kwhdiejduuuuuuuuuuuuuuu',
         author: 'Красновская О. (ред.)',
         img: 'египтология.jpg',
         price: 1300,

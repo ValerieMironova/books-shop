@@ -11,6 +11,8 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import DeleteIcon from '@material-ui/icons/Delete';
 import * as cartActions from "../../../../actions/cart"
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 const ShoppingCart = (props) => {
     const classes = useStyles();
@@ -18,11 +20,17 @@ const ShoppingCart = (props) => {
     const tableRows = props.cart.items.map(item => {
         return (
             <TableRow className={classes.table_row} key={item.id}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.price} р.</TableCell>
-                <TableCell>{item.count} шт.</TableCell>
-                <TableCell>{item.total} р.</TableCell>
-                <TableCell><Button onClick={() =>deleteItem(item)}><DeleteIcon/></Button></TableCell>
+                <TableCell className={classes.table_td_name}>{item.name}</TableCell>
+                <TableCell className={classes.table_td_price}>{item.price} р.</TableCell>
+                <TableCell className={classes.table_td_count}>
+                    <Button onClick={() => addQuantity(item)}><AddIcon/></Button>
+                    {item.count} шт.
+                    <Button onClick={() => removeQuantity(item)}><RemoveIcon/></Button>
+                </TableCell>
+                <TableCell className={classes.table_td_total}>{item.total} р.</TableCell>
+                <TableCell className={classes.table_td_delete}>
+                    <Button onClick={() =>deleteItem(item)}><DeleteIcon/></Button>
+                </TableCell>
             </TableRow>
         )
     });
@@ -46,6 +54,12 @@ const ShoppingCart = (props) => {
 
     const deleteItem = (item) => {
         props.dispatch(cartActions.deleteItem(item))
+    };
+    const addQuantity = (item) => {
+        props.dispatch(cartActions.addQuantity(item))
+    };
+    const removeQuantity = (item) => {
+        props.dispatch(cartActions.removeQuantity(item))
     };
 
     return (
